@@ -1,0 +1,8 @@
+package: headless
+version: 0.1.0
+author: Jelle Schutter
+supportpage: https://github.com/jelleschutter/redaxo_headless/issues
+
+requires:
+    packages:
+        yrewrite: '^2.6'
