@@ -1,12 +1,10 @@
 <?php
 
-class rex_api_headless extends rex_api_function {
-
-    protected $published = true;
+class rex_api_headless_content extends rex_base_api_headless {
 
     function execute()
     {
-        rex_response::setHeader('Access-Control-Allow-Origin', '*');
+        parent::execute();
 
         $path = rex_request('path', 'string', false);
         if ($path === false) {
@@ -14,7 +12,7 @@ class rex_api_headless extends rex_api_function {
             rex_response::sendJson([]);
         }
 
-        $articleMeta = rex_headless_yrewrite::getArticleObjectByUrl('default', $path);
+        $articleMeta = rex_headless_yrewrite::getArticleObjectByUrl($path);
 
         if ($articleMeta === false) {
             rex_response::setStatus(400);
