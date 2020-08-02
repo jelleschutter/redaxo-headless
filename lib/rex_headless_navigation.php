@@ -44,8 +44,8 @@ class rex_headless_navigation {
             $item['id'] = $nav->getId();
             $item['link'] = '/' . rex_headless_yrewrite::rewrite(['id' => $nav->getId(), 'clang' => $nav->getClangId()]);
             $item['name'] = rex_escape($nav->getName());
-            $item['current'] = ($nav->getId() == $this->currentCategoryId);
-            $item['active'] = (in_array($nav->getId(), $this->path));
+            $item['current'] = ($nav->getId() == $this->currentArticleId || $nav->getId() == $this->currentCategoryId);
+            $item['active'] = ($nav->getId() == $this->currentArticleId || in_array($nav->getId(), $this->path));
 
             if ($depth < 0 && $nav instanceof rex_category) {
                 $children = $this->get($nav->getId(), $depth - 1);
