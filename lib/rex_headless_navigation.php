@@ -42,7 +42,7 @@ class rex_headless_navigation {
         foreach ($categories as $nav) {
             $item = [];
             $item['id'] = $nav->getId();
-            $item['link'] = '/' . rex_headless_yrewrite::rewrite(['id' => $nav->getId(), 'clang' => $nav->getClangId()]);
+            $item['link'] = rex_headless_yrewrite::rewrite(['id' => $nav->getId(), 'clang' => $nav->getClangId()]);
             $item['name'] = rex_escape($nav->getName());
             $item['current'] = ($nav->getId() == $this->currentArticleId || $nav->getId() == $this->currentCategoryId);
             $item['active'] = ($nav->getId() == $this->currentArticleId || in_array($nav->getId(), $this->path));
