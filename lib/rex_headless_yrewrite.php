@@ -21,7 +21,7 @@ class rex_headless_yrewrite extends rex_yrewrite {
         $path = false;
 
         if (!$fullpath && isset(self::$paths['paths']['default'][$id][$clang])) {
-            $path = self::$paths['paths']['default'][$id][$clang];
+            $path = '/' . self::$paths['paths']['default'][$id][$clang];
         }
 
         if ($path === false) {
