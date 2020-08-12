@@ -29,7 +29,7 @@ class rex_api_headless_content extends rex_base_api_headless {
         rex_extension::register('ART_CONTENT', function ($ep) {
             $dom = new DOMDocument();
             libxml_use_internal_errors(true);
-            $dom->loadHTML($ep->getSubject(), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $dom->loadHTML(mb_convert_encoding($ep->getSubject(), 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             libxml_clear_errors();
             $images = $dom->getElementsByTagName('img');
 
@@ -41,7 +41,7 @@ class rex_api_headless_content extends rex_base_api_headless {
                 }
             }
 
-            $ep->setSubject($dom->saveHTML());
+            $ep->setSubject($dom->saveHTML($dom->documentElement));
         }, rex_extension::LATE);
 
         rex_extension::register('URL_REWRITE', function (rex_extension_point $ep) {
