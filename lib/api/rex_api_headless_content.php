@@ -28,7 +28,9 @@ class rex_api_headless_content extends rex_base_api_headless {
 
         rex_extension::register('ART_CONTENT', function ($ep) {
             $dom = new DOMDocument();
+            libxml_use_internal_errors(true);
             $dom->loadHTML($ep->getSubject(), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            libxml_clear_errors();
             $images = $dom->getElementsByTagName('img');
 
             foreach ($images as $image) {
