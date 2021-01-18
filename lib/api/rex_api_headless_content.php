@@ -26,30 +26,6 @@ class rex_api_headless_content extends rex_api_function {
 
         $articleContent = new rex_article_content($articleId, $articleClang);
 
-        rex_extension::register('ART_CONTENT', function ($ep) {
-            $dom = new DOMDocument();
-            libxml_use_internal_errors(true);
-            $dom->loadHTML(mb_convert_encoding($ep->getSubject(), 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            libxml_clear_errors();
-            $images = $dom->getElementsByTagName('img');
-
-            foreach ($images as $image) {
-                $oldSrc = $image->getAttribute('src');
-                if (substr($oldSrc, 0, 1) === '/') {
-                    $newSrc = rex::getServer() . $oldSrc;
-                    $image->setAttribute('src', $newSrc);
-                }
-            }
-
-            $ep->setSubject($dom->saveHTML($dom->documentElement));
-        }, rex_extension::LATE);
-
-        rex_extension::register('URL_REWRITE', function (rex_extension_point $ep) {
-            $params = $ep->getParams();
-            $params['subject'] = $ep->getSubject();
-            return rex_headless_yrewrite::rewrite($params);
-        }, rex_extension::EARLY);
-
         rex_response::sendJson([
             'meta' => [
                 'title' => $seo->getTitle(),
