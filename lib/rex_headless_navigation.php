@@ -6,9 +6,9 @@ class rex_headless_navigation {
     private $currentCategoryId = -1;
     private $path = [];
 
-    public function __construct($articleId)
+    public function __construct($articleId, $clangId = null)
     {
-        if ($article = rex_article::get($articleId)) {
+        if ($article = rex_article::get($articleId, $clangId)) {
             $path = trim($article->getPath(), '|');
 
             $this->path = [];
@@ -18,6 +18,7 @@ class rex_headless_navigation {
 
             $this->currentArticleId = $articleId;
             $this->currentCategoryId = $article->getCategoryId();
+            $this->currentClangId = $article->getClangId();
         } else {
             rex_response::setStatus(400);
             rex_response::sendJson([]);
@@ -33,16 +34,16 @@ class rex_headless_navigation {
     public function get($categoryId, $depth = 1)
     {
         if ($categoryId < 1) {
-            $categories = array_merge(rex_article::getRootArticles(), rex_category::getRootCategories());
+            $categories = array_merge(rex_article::getRootArticles(false, $this->currentClangId), rex_category::getRootCategories(false, $this->currentClangId));
         } else {
-            $categories = array_merge(rex_category::get($categoryId)->getArticles(), rex_category::get($categoryId)->getChildren());
+            $categories = array_merge(rex_category::get($categoryId, $this->currentClangId)->getArticles(), rex_category::get($categoryId, $this->currentClangId)->getChildren());
         }
 
         $list = [];
         foreach ($categories as $nav) {
             $item = [];
             $item['id'] = $nav->getId();
-            $item['link'] = rex_headless_yrewrite::rewrite(['id' => $nav->getId(), 'clang' => $nav->getClangId()]);
+            $item['link'] = rex_yrewrite::rewrite(['id' => $nav->getId(), 'clang' => $nav->getClangId()]);
             $item['name'] = rex_escape($nav->getName());
             $item['current'] = ($nav->getId() == $this->currentArticleId || $nav->getId() == $this->currentCategoryId);
             $item['active'] = ($nav->getId() == $this->currentArticleId || in_array($nav->getId(), $this->path));
