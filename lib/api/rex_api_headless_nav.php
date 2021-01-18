@@ -1,11 +1,11 @@
 <?php
 
-class rex_api_headless_nav extends rex_base_api_headless {
+class rex_api_headless_nav extends rex_api_function {
+
+    protected $published = true;
 
     function execute()
     {
-        parent::execute();
-
         $path = rex_request('path', 'string', false);
         if ($path === false) {
             rex_response::setStatus(400);
