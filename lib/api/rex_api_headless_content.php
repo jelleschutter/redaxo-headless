@@ -12,15 +12,20 @@ class rex_api_headless_content extends rex_api_function {
             rex_response::sendJson([]);
         }
 
-        $articleMeta = rex_headless_yrewrite::getArticleObjectByUrl($path);
+        $domainName = rex_yrewrite::getHost();
+        $domain = rex_yrewrite::getDomainByName($domainName);
+        if ($domain === null) {
+            $domain = rex_yrewrite::getDefaultDomain();
+        }
+        $articleMeta = rex_yrewrite::getArticleIdByUrl($domain, $path);
 
         if ($articleMeta === false) {
             rex_response::setStatus(400);
             rex_response::sendJson([]);
         }
 
-        $articleId = $articleMeta['id'];
-        $articleClang = $articleMeta['clang'];
+        $articleId = array_keys($articleMeta)[0];
+        $articleClang = $articleMeta[$articleId];
 
         $seo = new rex_yrewrite_seo($articleId, $articleClang);
 
