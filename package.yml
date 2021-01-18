@@ -3,6 +3,13 @@ version: 0.1.2
 author: Jelle Schutter
 supportpage: https://github.com/jelleschutter/redaxo_headless/issues
 
+page:
+    title: 'translate:headless'
+    icon: rex-icon fa-bath
+    subpages:
+        config:
+             title: 'translate:headless'
+
 requires:
     packages:
         yrewrite: '^2.6'
