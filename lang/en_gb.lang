@@ -2,6 +2,8 @@ headless = Headless
 
 # content page
 headless_config = Configuration
+debug = Debug Mode
+debug_note = Allows CORS to ensure easier development.
 override_output = Override output with SPA HTML
 headless_spa_html = SPA HTML
 headless_spa_html_note = Insert file content of <code>index.html</code> of SPA build. Make sure you upload the asset files in the same structure as they are in the build folder relative to the <code>index.html</code>.

@@ -12,6 +12,14 @@
 
 $form = rex_config_form::factory($this->getName());
 
+$field = $form->addSelectField('debug', null, ['class' => 'form-control']);
+$field->setLabel($this->i18n('debug'));
+$field->setNotice($this->i18n('debug_note'));
+$select = new rex_select();
+$select->addOption('Enabled', true);
+$select->addOption('Disabled', false);
+$field->setSelect($select);
+
 $field = $form->addSelectField('override_output', null, ['class' => 'form-control']);
 $field->setLabel($this->i18n('override_output'));
 $select = new rex_select();
