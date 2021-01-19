@@ -12,7 +12,6 @@ class rex_api_headless_nav extends rex_api_function {
             rex_response::sendJson([]);
         }
 
-        // $articleMeta = rex_headless_yrewrite::getArticleObjectByUrl($path);
         $domainName = rex_yrewrite::getHost();
         $domain = rex_yrewrite::getDomainByName($domainName);
         if ($domain === null) {
