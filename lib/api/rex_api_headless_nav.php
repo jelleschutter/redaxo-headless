@@ -10,6 +10,7 @@ class rex_api_headless_nav extends rex_headless_api_base {
         if ($path === false) {
             rex_response::setStatus(400);
             rex_response::sendJson([]);
+            exit;
         }
 
         $domainName = rex_yrewrite::getHost();
@@ -22,6 +23,7 @@ class rex_api_headless_nav extends rex_headless_api_base {
         if ($articleMeta === false) {
             rex_response::setStatus(400);
             rex_response::sendJson([]);
+            exit;
         }
 
         $articleId = array_keys($articleMeta)[0];
@@ -35,5 +37,6 @@ class rex_api_headless_nav extends rex_headless_api_base {
         $nav = $navInstance->get(0, $levels);
 
         rex_response::sendJson($nav);
+        exit;
     }
 }
