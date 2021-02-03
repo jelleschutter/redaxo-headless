@@ -1,0 +1,12 @@
+package: headless/deploy
+version: 1.0.1
+author: Jelle Schutter
+supportpage: https://github.com/jelleschutter/redaxo_headless/issues
+
+page:
+    title: 'translate:headless_delopy'
+    perm: admin
+
+default_config:
+    enable_deploy: false
+    token: ''
