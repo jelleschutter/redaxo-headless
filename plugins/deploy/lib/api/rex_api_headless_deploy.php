@@ -78,6 +78,10 @@ class rex_api_headless_deploy extends rex_api_function {
             rex_response::sendJson([
                 'msg' => 'Successfully updated content!'
             ]);
+        } else {
+            rex_response::sendJson([
+                'msg' => 'Missing \'index.html\'!'
+            ]);
         }
         exit;
     }
