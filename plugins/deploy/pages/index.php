@@ -10,7 +10,7 @@
  * @var rex_plugin $this
  */
 
-$form = rex_config_form::factory($this->getName());
+$form = rex_config_form::factory($this->getPackageId());
 
 $field = $form->addSelectField('enable_deploy', null, ['class' => 'form-control']);
 $field->setLabel($this->i18n('enable_deploy'));
