@@ -1,3 +1,6 @@
+headless_deploy = Deploy
+
+# content page
 headless_deploy_enable_deploy = Enable Delopyment
 headless_deploy_token = Token
 headless_deploy_token_note = New Token: [{token}]

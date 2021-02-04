@@ -4,7 +4,7 @@ author: Jelle Schutter
 supportpage: https://github.com/jelleschutter/redaxo_headless/issues
 
 page:
-    title: 'translate:headless_delopy'
+    title: 'translate:headless_deploy'
     perm: admin
 
 default_config:
