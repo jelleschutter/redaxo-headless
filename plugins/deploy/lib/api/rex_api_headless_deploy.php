@@ -57,7 +57,7 @@ class rex_api_headless_deploy extends rex_api_function {
                 foreach ($scripts as $script) {
                     $src = $script->getAttribute('src');
                     if (substr($src, 0, 1) === '/') {
-                        $script->setAttribute('src', $plugin->getAssetsUrl($src));
+                        $script->setAttribute('src', $plugin->getAssetsUrl(substr($src, 0, 1)));
                     }
                 }
 
@@ -65,7 +65,7 @@ class rex_api_headless_deploy extends rex_api_function {
                 foreach ($links as $link) {
                     $href = $link->getAttribute('href');
                     if (substr($href, 0, 1) === '/') {
-                        $link->setAttribute('href', $plugin->getAssetsUrl($href));
+                        $link->setAttribute('href', $plugin->getAssetsUrl(substr($href, 0, 1)));
                     }
                 }
 
