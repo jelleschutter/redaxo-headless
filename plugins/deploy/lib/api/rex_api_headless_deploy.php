@@ -9,6 +9,14 @@ class rex_api_headless_deploy extends rex_api_function {
         $addon = rex_addon::get('headless');
         $plugin = $addon->getPlugin('deploy');
 
+        if ($plugin->getConfig('enable_deploy', '0') !== '1') {
+            rex_response::setStatus(403);
+            rex_response::sendJson([
+                'msg' => 'Deploy disabled!'
+            ]);
+            exit;
+        }
+
         if (rex_post('token', 'string', null) !== $plugin->getConfig('token', '')) {
             rex_response::setStatus(403);
             rex_response::sendJson([
