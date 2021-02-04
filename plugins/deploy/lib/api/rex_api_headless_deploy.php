@@ -11,7 +11,9 @@ class rex_api_headless_deploy extends rex_api_function {
 
         if (rex_post('token', 'string', null) !== $plugin->getConfig('token', '')) {
             rex_response::setStatus(403);
-            rex_response::sendJson([]);
+            rex_response::sendJson([
+                'msg' => 'Invalid Token!'
+            ]);
             exit;
         }
 
@@ -19,7 +21,9 @@ class rex_api_headless_deploy extends rex_api_function {
 
         if ($files === null) {
             rex_response::setStatus(400);
-            rex_response::sendJson([]);
+            rex_response::sendJson([
+                'msg' => 'Missing ZIP file!'
+            ]);
             exit;
         }
 
@@ -71,6 +75,9 @@ class rex_api_headless_deploy extends rex_api_function {
 
         if ($spaHtml !== false) {
             $addon->setConfig('spa_html', $spaHtml);
+            rex_response::sendJson([
+                'msg' => 'Successfully updated content!'
+            ]);
         }
         exit;
     }
