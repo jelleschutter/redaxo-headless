@@ -48,7 +48,7 @@ class rex_headless_navigation {
             $item['current'] = ($nav->getId() == $this->currentArticleId || $nav->getId() == $this->currentCategoryId);
             $item['active'] = ($nav->getId() == $this->currentArticleId || in_array($nav->getId(), $this->path));
 
-            if ($depth < 0 && $nav instanceof rex_category) {
+            if ($depth > 0 && $nav instanceof rex_category) {
                 $children = $this->get($nav->getId(), $depth - 1);
                 if (count($children) > 0) {
                     $item['children'] = $children;
