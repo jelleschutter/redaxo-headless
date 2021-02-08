@@ -1,7 +1,7 @@
 # REDAXO Headless - SPA + REDAXO = :heart:
 The goal of the REDAXO Headless ecosystem is to offer a developer approach to integrating SPAs into REDAXO. The setup will usually consist out of the following three sub-systems:
 - [REDAXO AddOn](#redaxo-addon)
-- [SPA](https://github.com/jelleschutter/redaxo_headless_vue_frontend)
+- [Example SPA](https://github.com/jelleschutter/redaxo_headless_vue_frontend)
 - [GitHub Action for deployment](https://github.com/jelleschutter/redaxo-headless-deploy)
 ## REDAXO AddOn
 The REDAXO AddOn provides API endpoints to allow easy access to page content from the SPA. Currently there are three endpoints:
@@ -76,7 +76,7 @@ path | string | Yes | Path relative to root without leading slash. Therefore the
 
 ### Deploy
 The deploy endpoint is a part of the deploy plugin which has to be enabled separately on the addon system page.
-The deployment function is best used with the headless deployment github action: [redaxo-headless-deploy](https://github.com/jelleschutter/redaxo-headless-deploy)
+The deployment function used by the headless deployment github action. For more info see: [redaxo-headless-deploy](https://github.com/jelleschutter/redaxo-headless-deploy)
 **URL** | **Method**
 --- | ---
 /?rex-api-call=headless_deploy | `POST`
