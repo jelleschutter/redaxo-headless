@@ -9,6 +9,8 @@ class rex_api_headless_deploy extends rex_api_function {
         $addon = rex_addon::get('headless');
         $plugin = $addon->getPlugin('deploy');
 
+        $oldFiles = self::getAllFiles($plugin->getAssetsPath());
+
         if ($plugin->getConfig('enable_deploy', '0') !== '1') {
             rex_response::setStatus(403);
             rex_response::sendJson([
@@ -76,13 +78,27 @@ class rex_api_headless_deploy extends rex_api_function {
                 if (!is_dir($newDir)) {
                     rex_dir::create($newDir);
                 }
-                file_put_contents($plugin->getAssetsPath($file['name']), $zip->getFromIndex($i));
+                if (($key = array_search($newPath, $oldFiles)) !== false) {
+                    unset($oldFiles[$key]);
+                }
+                file_put_contents($newPath, $zip->getFromIndex($i));
             }
         }
         $zip->close();
 
         if ($spaHtml !== false) {
             $addon->setConfig('spa_html', $spaHtml);
+
+            // remove old files
+            foreach ($oldFiles as $file) {
+                unlink($file);
+            }
+
+            $emptyDirs = self::getEmptyDirectories($plugin->getAssetsPath());
+            foreach ($emptyDirs as $emptyDir) {
+                rmdir($emptyDir);
+            }
+
             rex_response::sendJson([
                 'msg' => 'Successfully updated content!'
             ]);
@@ -92,5 +108,47 @@ class rex_api_headless_deploy extends rex_api_function {
             ]);
         }
         exit;
+    }
+
+    private static function getAllFiles($path = '') {
+        $dir = [];
+        $dirContent = scandir($path);
+        $dirContent = array_filter($dirContent, static function ($value) {
+            return !in_array($value, array('.', '..'));
+        });
+        foreach ($dirContent as $value) {
+            $newPath = $path . $value;
+            if (is_dir($newPath)) {
+                $dir = array_merge($dir, self::getAllFiles($newPath . DIRECTORY_SEPARATOR));
+            } else {
+                $dir[] = $newPath;
+            }
+        }
+        return $dir;
+    }
+
+    private static function getEmptyDirectories($path = '') {
+        $dir = [];
+        $subDirs = scandir($path);
+        $subDirs = array_filter($subDirs, static function ($value) {
+            return !in_array($value, array('.', '..'));
+        });
+        $notEmpty = count($subDirs);
+        foreach ($subDirs as $value) {
+            $newPath = $path . $value;
+            if (is_dir($newPath)) {
+                $subDir = self::getEmptyDirectories($newPath . DIRECTORY_SEPARATOR);
+                if ($subDir === true) {
+                    $notEmpty--;
+                    $dir[] = $newPath . DIRECTORY_SEPARATOR;
+                } else {
+                    $dir = array_merge($dir, $subDir);
+                }
+            }
+        }
+        if ($notEmpty == 0) {
+            return true;
+        }
+        return $dir;
     }
 }
